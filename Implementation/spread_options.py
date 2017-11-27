@@ -20,7 +20,7 @@ class SpreadOption(object):
     def __init__(self, S0, K, T, r):
         """
         constructor
-        :param S0: numpy array with length 2, initial prices of underlying asset
+        :param S0: numpy array of length 2, initial prices of underlying asset
         :param K: float, strike
         :param T: float, time to maturity
         :param r: float, constant interest rate
@@ -30,8 +30,23 @@ class SpreadOption(object):
         self.r, self.T, self.S0, self.K = r, T, S0 / K, K   # scaled S
         self.X0 = np.log(S0)
 
-    def price(self, N, eta, ep, method="GBM", *args, **kwargs):
-        if method == "GBM":
+    def price(self, N, eta, ep, model="GBM", *args, **kwargs):
+        """
+        get the price of the spread option
+        :param N: int, better be a power of 2. Number of lattice used to calculate FFT integral
+        :param eta: int, FFT parameter
+        :param ep: numpy array of length 2. FFT parameter
+        :param model: can be either "GBM", "SV", "ExpLevy"
+        :param args: other parameters passed to characteristic function phi
+        :param kwargs: other parameters passed to characteristic function phi
+        :return: float
+        """
+        ep = np.array(ep)
+        assert len(ep) == 2, "ep should be a vector of length 2"
+        assert ep[1] > 0, "ep2 > 0"
+        assert ep[0] + ep[1] < -1, "ep1 + ep2 < -1"
+
+        if model == "GBM":
             phi = lambda x: 0  # TODO
         else:
             phi = lambda x: 0  # TODO
@@ -41,10 +56,6 @@ class SpreadOption(object):
         return 1 / (4 * np.pi**2) * self.__double_int(*args, **kwargs)
 
     def __double_int(self, N, eta, ep, phi, *args, **kwargs):
-        ep = np.array(ep)
-        assert len(ep) == 2, "ep should be a vector of length 2"
-        assert ep[1] > 0, "ep2 > 0"
-        assert ep[0] + ep[1] < -1, "ep1 + ep2 < -1"
         # use FFT to calculate the double integral
         u_bar = N * eta / 2
         eta_star = np.pi / u_bar
