@@ -9,11 +9,9 @@ Author: Bingcheng Wang, Yawei Wang & Zhihao Chen
 """
 
 import numpy as np
+from numpy.fft import ifft2
 
+x1 = np.array([[1, 2], [3, 4]])
+id = (0, 1)
 
-class IntFFT(object):
-    """
-    numerical integration by FFT
-    """
-    pass
-
+print(x1[id])
