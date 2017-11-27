@@ -12,10 +12,10 @@ import numpy as np
 
 
 class GBMModel(object):
-    """
+    """.
     Two-asset Black-Scholes model
     """
-    def __init__(self,sigma,r,T,rho):
+    def __init__(self, sigma, r, T, rho):
         """
         constructor
         :param sigma: numpy array with length 2, constant volatility
@@ -23,18 +23,19 @@ class GBMModel(object):
         :param T: float, time to maturity
         :param rho: float, constant correlation between two Brownian motion, |rho|<1
         """
-        sigma=np.array(sigma)
-        assert len(sigma)==2
-        self.sigma,self.r,self.T,self.rho=sigma,r,T,rho
+        sigma = np.array(sigma)
+        assert len(sigma) == 2
+        self.sigma, self.r, self.T, self.rho = sigma, r, T, rho
 
-    def phi(self,u):
+    def phi(self, u):
         """
         joint characteristic function, as a function of u
         :param u: numpy array with length 2
         """
-        e=np.matrix([1,1])
-        Sigma=np.matrix([[sigma[0]**2,rho*sigma[0]*sigma[1]],[rho*sigma[0]*sigma[1],sigma[1]**2]])
-        return np.exp(u*(r*T*e-sigma**2*T/2).T*1j-u*Sigma*np.reshape(u,(2,1))*T/2)
+        e = np.matrix([1, 1])
+        sigma_ = np.matrix([[self.sigma[0]**2, self.rho*self.sigma[0]*self.sigma[1]],
+                           [self.rho*self.sigma[0]*self.sigma[1], self.sigma[1]**2]])
+        return np.exp(u*(self.r*self.T*e-self.sigma**2*self.T/2).T*1j-u*sigma_*np.reshape(u, (2, 1))*self.T/2)
 
 
 class SVModel(object):
@@ -53,25 +54,28 @@ class SVModel(object):
         :param v0:float, initial volatility
         :param delta:numpy array with length 2
         """
-        sigma=np.array(sigma)
-        rho=np.array(rho)
-        assert len(sigma)==2
-        assert len(rho)==3
-        self.sigma,self.r,self.T,self.rho,self.kappa,self.mu,self.v0,self.delta=sigma,r,T,rho,kappa,mu,v0,delta
+        sigma = np.array(sigma)
+        rho = np.array(rho)
+        assert len(sigma) == 2
+        assert len(rho) == 3
+        self.sigma, self.r, self.T, self.rho, self.kappa, self.mu, self.v0, self.delta \
+            = sigma, r, T, rho, kappa, mu, v0, delta
 
-
-    def phi(self,u):
+    def phi(self, u):
         """
         joint characteristic function, as a function of u
         :param u: numpy array with length 2
         """
-        zeta=-(sigma[0]**2*u[0]**2+sigma[1]**2*u[1]**2+2*rho[0]*sigma[0]*sigma[1]*u[0]*u[1]+(sigma[0]**2*u[0]+sigma[1]**2*u[1])*1j)/2
-        gamma=kappa-(rho[1]*sigma[0]*u[0]+rho[2]*sigma[1]*u[1])*sigma[2]*1j
-        theta=np.sqrt(gamma**2-2*sigma[2]**2*zeta)
-        e=np.matrix([1,1])
+        zeta = -(self.sigma[0]**2*u[0]**2+self.sigma[1]**2*u[1]**2+2*self.rho[0]*self.sigma[0]*self.sigma[1]*u[0]*u[1] +
+               (self.sigma[0]**2*u[0]+self.sigma[1]**2*u[1])*1j)/2
+        gamma = self.kappa - (self.rho[1]*self.sigma[0]*u[0]+self.rho[2]*self.sigma[1]*u[1])*self.sigma[2]*1j
+        theta = np.sqrt(gamma**2-2*self.sigma[2]**2*zeta)
+        e = np.matrix([1, 1])
 
-        return (2*zeta*(1-np.exp(-theta*T))/(2*theta-(theta-gamma)*(1-np.exp(-theta*T))))*v0+u*(r*e-delta).T*1j-kappa*mu*(2*np.log((2 \
-            *theta-(theta-gamma)*(1-np.exp(-theta*T)))/2/theta)+(theta-gamma)*T)/sigma[2]**2
+        return (2*zeta*(1-np.exp(-theta*self.T))/(2*theta-(theta-gamma)*(1-np.exp(-theta*self.T))))*self.v0\
+               + u*(self.r*e-self.delta).T*1j - \
+               self.kappa*self.mu*(2*np.log((2 * theta-(theta-gamma)*(1-np.exp(-theta*self.T)))/2/theta)+
+                                   (theta-gamma)*self.T)/self.sigma[2]**2
 
 
 class ExpLevyModel(object):
