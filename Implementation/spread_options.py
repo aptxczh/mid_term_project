@@ -64,15 +64,12 @@ class SpreadOption(object):
         x_bar = N * eta_star / 2
         l = (self.X0 + x_bar) / eta_star
 
-        print(l)
-
         l = l.astype(int)  # convert to int
-        print(l)
 
         def P_hat(u):
             return gamma(1j * (u[0]+u[1]) - 1) * gamma(-1j * u[1]) / gamma(1j*u[0] + 1)
 
-        H_mat = np.empty((N, N))
+        H_mat = np.empty((N, N), dtype=complex)
         for k1 in range(N):
             for k2 in range(N):
                 u = -u_bar + np.array([k1, k2]) * eta + ep * 1j
@@ -99,10 +96,10 @@ delta_2 = 0.05
 sigma_2 = 0.1
 
 S0 = np.array([10, 5])
-N = 1000
-u_bar = 100
+N = 64
+u_bar = 20
 eta = u_bar * 2 / N
-ep = np.array([-5.2, 2.1])
+ep = np.array([-4.2, 2.1])
 
 p = SpreadOption(S0, 1, T, r).P(N, eta, ep)
 
