@@ -12,7 +12,7 @@ import numpy as np
 #from mpmath import gamma
 from scipy.special import gamma
 from numpy.fft import ifft2
-from stock_models import GBMModel
+from stock_models import GBMModel, SVModel, ExpLevyModel
 
 
 class SpreadOption(object):
@@ -50,7 +50,12 @@ class SpreadOption(object):
 
         if model == "GBM":
             phi = GBMModel(*args, **kwargs).phi
+        elif model == "SV":
+            phi = SVModel(*args, **kwargs).phi
+        elif model == "ExpLevy":
+            phi = ExpLevyModel(*args, **kwargs).phi
         else:
+            print("Illegal model input!")
             phi = lambda u: 0
         return np.exp(-self.r * self.T) * self.__payoff(N, eta, ep, phi) * self.K
 
@@ -68,7 +73,6 @@ class SpreadOption(object):
 
         def P_hat(u):
             return gamma(1j * (u[0]+u[1]) - 1) * gamma(-1j * u[1]) / gamma(1j*u[0] + 1)
-
 
         '''
         H_mat = np.empty((N, N), dtype=complex)

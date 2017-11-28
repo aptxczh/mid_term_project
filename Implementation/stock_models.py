@@ -56,7 +56,7 @@ class SVModel(object):
         """
         sigma = np.array(sigma)
         rho = np.array(rho)
-        assert len(sigma) == 2
+        assert len(sigma) == 3
         assert len(rho) == 3
         self.sigma, self.r, self.T, self.rho, self.kappa, self.mu, self.v0, self.delta \
             = sigma, r, T, rho, kappa, mu, v0, delta
@@ -72,10 +72,11 @@ class SVModel(object):
         theta = np.sqrt(gamma**2-2*self.sigma[2]**2*zeta)
         e = np.matrix([1, 1])
 
-        return (2*zeta*(1-np.exp(-theta*self.T))/(2*theta-(theta-gamma)*(1-np.exp(-theta*self.T))))*self.v0\
-               + u*(self.r*e-self.delta).T*1j - \
-               self.kappa*self.mu*(2*np.log((2 * theta-(theta-gamma)*(1-np.exp(-theta*self.T)))/2/theta)+
-                                   (theta-gamma)*self.T)/self.sigma[2]**2
+        res = (2*zeta*(1-np.exp(-theta*self.T))/(2*theta-(theta-gamma)*(1-np.exp(-theta*self.T))))*self.v0\
+              + u*(self.r*e-self.delta).T*1j - \
+              self.kappa*self.mu*(2*np.log((2 * theta-(theta-gamma)*(1-np.exp(-theta*self.T)))/2/theta)+
+                                  (theta-gamma)*self.T)/self.sigma[2]**2
+        return res[0, 0]
 
 
 class ExpLevyModel(object):
@@ -93,7 +94,6 @@ class ExpLevyModel(object):
         """
         self.lambda_, self.a1, self.a2, self.alpha, self.T = lambda_, a1, a2, alpha,T
 
-
     def phi(self,u):
         """
 
@@ -101,6 +101,7 @@ class ExpLevyModel(object):
         :return: joint characteristic function, as a function of u
         """
 
-        return (1+(1/self.a2-1/self.a1)*(u[0]+u[1])*1j+(u[0]+u[1])**2/self.a1/self.a2)**(-self.alpha*self.lambda_*self.T) *\
-               (1+(1/self.a2-1/self.a1)*u[0]*1j+u[0]**2/self.a1/self.a2)**(-(1-self.alpha)*self.lambda_*self.T)*\
-               (1+(1/self.a2-1/self.a1)*u[1]*1j+u[1]**2/self.a1/self.a2)**(-(1-self.alpha)*self.lambda_*self.T)
+        res = (1+(1/self.a2-1/self.a1)*(u[0]+u[1])*1j+(u[0]+u[1])**2/self.a1/self.a2)**(-self.alpha*self.lambda_*self.T) *\
+              (1+(1/self.a2-1/self.a1)*u[0]*1j+u[0]**2/self.a1/self.a2)**(-(1-self.alpha)*self.lambda_*self.T)*\
+              (1+(1/self.a2-1/self.a1)*u[1]*1j+u[1]**2/self.a1/self.a2)**(-(1-self.alpha)*self.lambda_*self.T)
+        return res

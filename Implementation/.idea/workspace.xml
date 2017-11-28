@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4cd52ed3-de53-43de-857a-91cc872cccb1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Implementation.iml" afterPath="$PROJECT_DIR$/.idea/Implementation.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.ipynb" afterPath="$PROJECT_DIR$/main.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spread_options.py" afterPath="$PROJECT_DIR$/spread_options.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_models.py" afterPath="$PROJECT_DIR$/stock_models.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,11 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="spread_options.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="spread_options.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spread_options.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+            <state relative-caret-position="115">
+              <caret line="79" column="29" lean-forward="true" selection-start-line="79" selection-start-column="29" selection-end-line="79" selection-end-column="29" />
               <folding>
                 <element signature="e#143#161#0" expanded="true" />
               </folding>
@@ -34,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stock_models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="stock_models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stock_models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+            <state relative-caret-position="404">
+              <caret line="106" column="18" lean-forward="true" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -66,8 +65,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/fft.py" />
-        <option value="$PROJECT_DIR$/stock_models.py" />
         <option value="$PROJECT_DIR$/spread_options.py" />
+        <option value="$PROJECT_DIR$/stock_models.py" />
       </list>
     </option>
   </component>
@@ -497,8 +496,8 @@
     <entry file="file://$PROJECT_DIR$/fft.py" />
     <entry file="file://$PROJECT_DIR$/spread_options.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+        <state relative-caret-position="115">
+          <caret line="79" column="29" lean-forward="true" selection-start-line="79" selection-start-column="29" selection-end-line="79" selection-end-column="29" />
           <folding>
             <element signature="e#143#161#0" expanded="true" />
           </folding>
@@ -507,8 +506,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stock_models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+        <state relative-caret-position="404">
+          <caret line="106" column="18" lean-forward="true" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="18" />
           <folding />
         </state>
       </provider>
