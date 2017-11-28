@@ -72,8 +72,11 @@ class SpreadOption(object):
         for k1 in range(N):
             for k2 in range(N):
                 u = -u_bar + np.array([k1, k2]) * eta + ep * 1j
+                if k1 == 1 and k2 == 1:
+                    print(phi(u))
+                    print(P_hat(u))
                 H_mat[k1, k2] = -1**(k1+k2) * phi(u) * P_hat(u)
 
-        res = (-1)**(l[0]+l[1]) * (eta * N)**2 * np.exp(-ep.dot(self.X0)) * ifft2(H_mat)[l]
+        res = (-1)**(l[0]+l[1]) * (eta * N)**2 * np.exp(-ep.dot(self.X0)) * ifft2(H_mat)[l[0], l[1]]
 
         return res
