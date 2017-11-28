@@ -11,6 +11,7 @@ Author: Bingcheng Wang, Yawei Wang & Zhihao Chen
 import numpy as np
 from scipy.special import gamma
 from numpy.fft import ifft2
+from stock_models import GBMModel
 
 
 class SpreadOption(object):
@@ -47,34 +48,32 @@ class SpreadOption(object):
         assert ep[0] + ep[1] < -1, "ep1 + ep2 < -1"
 
         if model == "GBM":
-            phi = lambda x: 0  # TODO
+            phi = GBMModel(*args, **kwargs).phi
         else:
             phi = lambda x: 0  # TODO
-        return np.exp(-self.r * self.T) * self.__payoff(N, eta, ep, phi, *args, **kwargs) * self.K
+        return np.exp(-self.r * self.T) * self.__payoff(N, eta, ep, phi) * self.K
 
-    def __payoff(self, *args, **kwargs):
-        return 1 / (4 * np.pi**2) * self.__double_int(*args, **kwargs)
+    def __payoff(self, N, eta, ep, phi):
+        return 1 / (4 * np.pi**2) * self.__double_int(N, eta, ep, phi)
 
-    def __double_int(self, N, eta, ep, phi, *args, **kwargs):
+    def __double_int(self, N, eta, ep, phi):
         # use FFT to calculate the double integral
         u_bar = N * eta / 2
         eta_star = np.pi / u_bar
         x_bar = N * eta_star / 2
         l = (self.X0 + x_bar) / eta_star
 
-        if not np.array_equal(np.floor(l), l):
-            print("l is not an array of integer!")
-
         l = l.astype(int)  # convert to int
 
-        def P_hat(k):
-            u = -u_bar + k * eta + ep * 1j
+        def P_hat(u):
             return gamma(1j * (u[0]+u[1]) - 1) * gamma(-1j * u[1]) / gamma(1j*u[0] + 1)
 
         H_mat = np.empty((N, N))
         for k1 in range(N):
             for k2 in range(N):
-                H_mat[k1, k2] = -1**(k1+k2) * phi(*args, **kwargs) * P_hat(np.array([k1, k2]))
+                u = -u_bar + np.array([k1, k2]) * eta + ep * 1j
+                H_mat[k1, k2] = -1**(k1+k2) * phi(u) * P_hat(u)
+
         res = (-1)**(l[0]+l[1]) * (eta * N)**2 * np.exp(-ep.dot(self.X0)) * ifft2(H_mat)[l]
 
         return res

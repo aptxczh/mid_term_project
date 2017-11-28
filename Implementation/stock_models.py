@@ -35,7 +35,7 @@ class GBMModel(object):
         e = np.matrix([1, 1])
         sigma_ = np.matrix([[self.sigma[0]**2, self.rho*self.sigma[0]*self.sigma[1]],
                            [self.rho*self.sigma[0]*self.sigma[1], self.sigma[1]**2]])
-        return np.exp(u*(self.r*self.T*e-self.sigma**2*self.T/2).T*1j-u*sigma_*np.reshape(u, (2, 1))*self.T/2)
+        return np.exp(u*(self.r*self.T*e-self.sigma**2*self.T/2).T*1j-u*sigma_*np.reshape(u, (2, 1))*self.T/2)[0, 0]
 
 
 class SVModel(object):
