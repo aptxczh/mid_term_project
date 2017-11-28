@@ -29,20 +29,20 @@ class GBMModel(object):
 
     def phi(self, u):
         """
-        joint characteristic function, as a function of u
         :param u: numpy array with length 2
+        :return: joint characteristic function, as a function of u
         """
         e = np.matrix([1, 1])
         sigma_ = np.matrix([[self.sigma[0]**2, self.rho*self.sigma[0]*self.sigma[1]],
                            [self.rho*self.sigma[0]*self.sigma[1], self.sigma[1]**2]])
-        return np.exp(u*(self.r*self.T*e-self.sigma**2*self.T/2).T*1j-u*sigma_*np.reshape(u, (2, 1))*self.T/2)
+        return np.exp(u*(self.r*self.T*e-self.sigma**2*self.T/2).T*1j-u*sigma_*np.reshape(u, (2, 1))*self.T/2)[0,0]
 
 
 class SVModel(object):
     """
     Two-asset Three factor SV model
     """
-    def __init__(self,sigma,r,T,rho,kappa,mu,v0,delta):
+    def __init__(self, sigma, r, T, rho, kappa, mu, v0, delta):
         """
         constructor
         :param sigma: numpy array with length 3, constant volatility
@@ -63,8 +63,8 @@ class SVModel(object):
 
     def phi(self, u):
         """
-        joint characteristic function, as a function of u
         :param u: numpy array with length 2
+        :return: joint characteristic function, as a function of u
         """
         zeta = -(self.sigma[0]**2*u[0]**2+self.sigma[1]**2*u[1]**2+2*self.rho[0]*self.sigma[0]*self.sigma[1]*u[0]*u[1] +
                (self.sigma[0]**2*u[0]+self.sigma[1]**2*u[1])*1j)/2
@@ -82,8 +82,25 @@ class ExpLevyModel(object):
     """
     Two-asset Exponential Levy model
     """
-    def __init__(self):
-        pass
+    def __init__(self, lambda_, a1, a2, alpha,T):
+        """
 
-    def phi(self):
-        pass
+        :param lambda_: float, positive constant
+        :param a1: float, positive constant
+        :param a2: float, positive constant
+        :param alpha: float, constant
+        :param T: float, time to maturity
+        """
+        self.lambda_, self.a1, self.a2, self.alpha, self.T = lambda_, a1, a2, alpha,T
+
+
+    def phi(self,u):
+        """
+
+        :param u: numpy array with length 2
+        :return: joint characteristic function, as a function of u
+        """
+
+        return (1+(1/self.a2-1/self.a1)*(u[0]+u[1])*1j+(u[0]+u[1])**2/self.a1/self.a2)**(-self.alpha*self.lambda_*self.T) *\
+               (1+(1/self.a2-1/self.a1)*u[0]*1j+u[0]**2/self.a1/self.a2)**(-(1-self.alpha)*self.lambda_*self.T)*\
+               (1+(1/self.a2-1/self.a1)*u[1]*1j+u[1]**2/self.a1/self.a2)**(-(1-self.alpha)*self.lambda_*self.T)
