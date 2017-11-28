@@ -9,6 +9,7 @@ Author: Bingcheng Wang, Yawei Wang & Zhihao Chen
 """
 
 import numpy as np
+#from mpmath import gamma
 from scipy.special import gamma
 from numpy.fft import ifft2
 from stock_models import GBMModel
@@ -50,7 +51,7 @@ class SpreadOption(object):
         if model == "GBM":
             phi = GBMModel(*args, **kwargs).phi
         else:
-            phi = lambda x: 0  # TODO
+            phi = lambda u: 0
         return np.exp(-self.r * self.T) * self.__payoff(N, eta, ep, phi) * self.K
 
     def __payoff(self, N, eta, ep, phi):
@@ -63,7 +64,10 @@ class SpreadOption(object):
         x_bar = N * eta_star / 2
         l = (self.X0 + x_bar) / eta_star
 
+        print(l)
+
         l = l.astype(int)  # convert to int
+        print(l)
 
         def P_hat(u):
             return gamma(1j * (u[0]+u[1]) - 1) * gamma(-1j * u[1]) / gamma(1j*u[0] + 1)
@@ -72,11 +76,35 @@ class SpreadOption(object):
         for k1 in range(N):
             for k2 in range(N):
                 u = -u_bar + np.array([k1, k2]) * eta + ep * 1j
-                if k1 == 1 and k2 == 1:
-                    print(phi(u))
-                    print(P_hat(u))
+                #if k1 == 1 and k2 == 1:
+                #    print(phi(u))
+                #    print(P_hat(u))
                 H_mat[k1, k2] = -1**(k1+k2) * phi(u) * P_hat(u)
 
         res = (-1)**(l[0]+l[1]) * (eta * N)**2 * np.exp(-ep.dot(self.X0)) * ifft2(H_mat)[l[0], l[1]]
 
         return res
+
+    def P(self, N, eta, ep):
+        return self.__payoff(N, eta, ep, lambda u: 1)
+
+
+## Parameters
+r = 0.1
+T = 1.0
+rho = 0.5
+delta_1 = 0.05
+sigma_1 = 0.2
+delta_2 = 0.05
+sigma_2 = 0.1
+
+S0 = np.array([10, 5])
+N = 1000
+u_bar = 100
+eta = u_bar * 2 / N
+ep = np.array([-5.2, 2.1])
+
+p = SpreadOption(S0, 1, T, r).P(N, eta, ep)
+
+print(max((S0[0] - S0[1] - 1), 0))
+print(p)
