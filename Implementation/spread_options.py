@@ -29,7 +29,7 @@ class SpreadOption(object):
         """
         S0 = np.array(S0)
         assert len(S0) == 2, "S0 should be a vector of length 2"
-        self.r, self.T, self.S0, self.K = r, T, S0 / K, K   # scaled S
+        self.r, self.T, self.S0, self.K = r, T, S0, K
         self.X0 = np.log(S0)
 
     def price(self, N, eta, ep, model="GBM", *args, **kwargs):
@@ -57,7 +57,7 @@ class SpreadOption(object):
         else:
             print("Illegal model input!")
             phi = lambda u: 0
-        return np.exp(-self.r * self.T) * self.__payoff(N, eta, ep, phi) * self.K
+        return np.exp(-self.r * self.T) * self.__payoff(N, eta, ep, phi)
 
     def __payoff(self, N, eta, ep, phi):
         return 1 / (4 * np.pi**2) * self.__double_int(N, eta, ep, phi)
@@ -72,7 +72,8 @@ class SpreadOption(object):
         l = l.astype(int)  # convert to int
 
         def P_hat(u):
-            return gamma(1j * (u[0]+u[1]) - 1) * gamma(-1j * u[1]) / gamma(1j*u[0] + 1)
+            return gamma(1j * (u[0]+u[1]) - 1) * gamma(-1j * u[1]) / gamma(1j*u[0] + 1) * \
+                   self.K**(-1j * (u[0]+u[1]) + 1)
 
         '''
         H_mat = np.empty((N, N), dtype=complex)
@@ -90,7 +91,7 @@ class SpreadOption(object):
         for k1 in range(N):
             for k2 in range(N):
                 u = -u_bar + np.array([k1, k2]) * eta + ep * 1j
-                sum += np.exp(2*np.pi*1j*np.array([k1, k2]).dot(l)/N) *  (-1)**(k1+k2) * phi(u) * P_hat(u)
+                sum += np.exp(2*np.pi*1j*np.array([k1, k2]).dot(l)/N) * (-1)**(k1+k2) * phi(u) * P_hat(u)
         res = (-1)**(l[0]+l[1]) * eta**2 * np.exp(-ep.dot(self.X0)) * sum
 
         return res.real
