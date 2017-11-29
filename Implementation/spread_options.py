@@ -92,6 +92,7 @@ class SpreadOption(object):
             for k2 in range(N):
                 u = -u_bar + np.array([k1, k2]) * eta + ep * 1j
                 sum += np.exp(2*np.pi*1j*np.array([k1, k2]).dot(l)/N) * (-1)**(k1+k2) * phi(u) * P_hat(u)
+
         res = (-1)**(l[0]+l[1]) * eta**2 * np.exp(-ep.dot(self.X0)) * sum
 
         return res.real
