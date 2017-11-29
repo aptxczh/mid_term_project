@@ -49,7 +49,7 @@ class SVModel(object):
         :param r: float, constant interest rate
         :param T: float, time to maturity
         :param rho: numpy array with length 3, constant correlation between three Brownian motion
-        :param kappa: float, mean revertion speed
+        :param kappa: float, mean reversion speed
         :param mu:float, long term volatility
         :param v0:float, initial volatility
         :param delta:numpy array with length 2
@@ -73,7 +73,7 @@ class SVModel(object):
         e = np.matrix([1, 1])
 
         res = (2*zeta*(1-np.exp(-theta*self.T))/(2*theta-(theta-gamma)*(1-np.exp(-theta*self.T))))*self.v0\
-              + u*(self.r*e-self.delta).T*1j - \
+              + u*(self.r*e-self.delta).T*self.T*1j - \
               self.kappa*self.mu*(2*np.log((2 * theta-(theta-gamma)*(1-np.exp(-theta*self.T)))/2/theta)+
                                   (theta-gamma)*self.T)/self.sigma[2]**2
         return res[0, 0]
@@ -83,7 +83,7 @@ class ExpLevyModel(object):
     """
     Two-asset Exponential Levy model
     """
-    def __init__(self, lambda_, a1, a2, alpha,T):
+    def __init__(self, lambda_, a1, a2, alpha, T):
         """
 
         :param lambda_: float, positive constant
