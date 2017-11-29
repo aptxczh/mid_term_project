@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4cd52ed3-de53-43de-857a-91cc872cccb1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/main-checkpoint.ipynb" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/main-checkpoint.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.ipynb" afterPath="$PROJECT_DIR$/main.ipynb" />
-    </list>
+    <list default="true" id="4cd52ed3-de53-43de-857a-91cc872cccb1" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +17,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="spread_options.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="spread_options.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spread_options.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1404">
@@ -32,7 +29,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stock_models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="stock_models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stock_models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="404">
@@ -512,14 +509,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/fft.py" />
-    <entry file="file://$PROJECT_DIR$/stock_models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="106" column="18" lean-forward="false" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spread_options.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1404">
@@ -527,6 +516,14 @@
           <folding>
             <element signature="e#143#161#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stock_models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="106" column="18" lean-forward="false" selection-start-line="106" selection-start-column="18" selection-end-line="106" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
